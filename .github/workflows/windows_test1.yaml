@@ -25,4 +25,5 @@ jobs:
 
       - run: kcl run oci://ghcr.io/kcl-lang/helloworld
       - run: kcl run https://github.com/kcl-lang/flask-demo-kcl-manifests
+      - run: kclvm_cli run https://github.com/kcl-lang/flask-demo-kcl-manifests
 
