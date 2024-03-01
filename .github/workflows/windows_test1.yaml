@@ -1,0 +1,28 @@
+name: build-and-test-windows-1
+on: ["push", "pull_request"]
+jobs:
+  build-and-test:
+    name: build and test on windows
+    runs-on: windows-latest
+    env:
+      LLVM_SYS_120_PREFIX: "C:/LLVM"
+      KCLVM_CLANG: "C:/LLVM/bin/clang.exe"
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "true"
+      
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Install KCL
+        run: go install ./cmd/kcl
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - run: kcl run oci://ghcr.io/kcl-lang/helloworld
+      - run: kcl run https://github.com/kcl-lang/flask-demo-kcl-manifests
+
