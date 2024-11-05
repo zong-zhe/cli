@@ -1,0 +1,5 @@
+run:
+	kcl run cc --git https://github.com/kcl-lang/flask-demo-kcl-manifests --commit 8308200
+
+test:
+	make run
