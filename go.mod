@@ -206,4 +206,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace kcl-lang.io/kpm => /Users/zongz/Workspace/kusionstack/kpm
+replace kcl-lang.io/kpm => /Users/zongzhe/Workspace/kcl/kpm

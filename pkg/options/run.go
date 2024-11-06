@@ -226,7 +226,7 @@ func (o *RunOptions) Complete(args []string) error {
 				query.Set("branch", o.Branch)
 			}
 			argUrl.RawQuery = query.Encode()
-			o.Entries = append(o.Entries, argUrl.String())
+			pkgSourceUrl = *argUrl
 		}
 	}
 
@@ -248,6 +248,8 @@ func (o *RunOptions) Complete(args []string) error {
 
 		urlWithSpec.Scheme = pkgSourceUrl.Scheme
 		o.Entries = append(o.Entries, urlWithSpec.String())
+	} else {
+		o.Entries = append(o.Entries, pkgSourceUrl.String())
 	}
 	return nil
 }

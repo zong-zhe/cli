@@ -7,6 +7,7 @@ import (
 	"kcl-lang.io/kpm/pkg/constants"
 	"kcl-lang.io/kpm/pkg/downloader"
 	"kcl-lang.io/kpm/pkg/opt"
+	"kcl-lang.io/kpm/pkg/utils"
 )
 
 func argsGet(a []string, n int) string {
@@ -129,5 +130,29 @@ func ParseUrlFromArgs(cli *client.KpmClient, args []string) (*url.URL, error) {
 			sourceUrl = *urlWithSpec
 		}
 	}
-	return &sourceUrl, nil
+
+	source, err := downloader.NewSourceFromStr(sourceUrl.String())
+	if err != nil {
+		return nil, err
+	}
+
+	if source.SpecOnly() {
+		source.Oci = &downloader.Oci{
+			Reg:  cli.GetSettings().DefaultOciRegistry(),
+			Repo: utils.JoinPath(cli.GetSettings().DefaultOciRepo(), source.ModSpec.Name),
+			Tag:  source.ModSpec.Version,
+		}
+	}
+
+	sourceUrlStr, err := source.ToString()
+	if err != nil {
+		return nil, err
+	}
+
+	u, err := url.Parse(sourceUrlStr)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
 }
